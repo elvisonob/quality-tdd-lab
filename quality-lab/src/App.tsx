@@ -9,8 +9,14 @@ type Todo = {
 function App() {
   const [todoText, setTodotext] = useState('');
   const [todoList, setTodoList] = useState<Todo[]>([]);
+  const [editingTodoId, setEditingTodoId] = useState<number | null>(null);
+  const [editText, setEditText] = useState('');
 
   function onChangeTodo(e: React.ChangeEvent<HTMLInputElement>) {
+    setTodotext(e.target.value);
+  }
+
+  function onChangeEditedTodo(e: React.ChangeEvent<HTMLInputElement>) {
     setTodotext(e.target.value);
   }
 
@@ -23,6 +29,10 @@ function App() {
     setTodoList(todoList.filter((todo) => todo.id !== id));
   }
 
+  function onEditTodo(id: number) {
+    setEditingTodoId(id);
+  }
+
   return (
     <main>
       <h1>TODO APP</h1>
@@ -31,7 +41,13 @@ function App() {
         <input type="text" id="text" value={todoText} onChange={onChangeTodo} />
         <button onClick={onSubmit}>Enter</button>
       </div>
-      <TodoList todoList={todoList} onRemoveTodo={onRemoveTodo} />
+      <TodoList
+        todoList={todoList}
+        onEditTodo={onEditTodo}
+        onRemoveTodo={onRemoveTodo}
+        editingTodoId={editingTodoId}
+        editText={editText}
+      />
     </main>
   );
 }

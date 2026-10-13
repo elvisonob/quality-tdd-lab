@@ -6,26 +6,46 @@ type Todo = {
 type TodoListProps = {
   todoList: Todo[];
   onRemoveTodo: (id: number) => void;
+  onEditTodo: (id: number) => void;
+  editingTodoId: number | null;
+  editText: string;
 };
 
-// I will write down the edit version out first
+/*
+When a user clicks on edit, an input box shows up and a 
+save and edit button simultaneously.
 
-// Now, to edit. When a user clicks on the particular item to edit,
-// It must be identifiable through the item's id.
-// Now, we should go through the list, identify that id of what should be
-// edited and edit it and then click save button to confirm.
-// so when edit is clicked on a todo, it should have cancel or save button
+Then, they type and when they click save, the new text is 
+added and edited 
 
-function TodoList({ todoList, onRemoveTodo }: TodoListProps) {
+*/
+
+function TodoList({
+  todoList,
+  onRemoveTodo,
+  onEditTodo,
+  editingTodoId,
+  editText,
+}: TodoListProps) {
   return (
     <div>
       <h2>LIST OF TODO</h2>
       <ul>
         {todoList.map((todo) => (
           <li key={todo.id}>
-            {todo.text}
-            <button onClick={() => onRemoveTodo(todo.id)}>Remove</button>
-            <button>Edit</button>
+            {editingTodoId === todo.id ? (
+              <>
+                <input value={editText} type="text" id="text" />
+                <button>Save</button>
+                <button>Edit</button>
+              </>
+            ) : (
+              <>
+                {todo.text}
+                <button onClick={() => onRemoveTodo(todo.id)}>Remove</button>
+                <button onClick={() => onEditTodo(todo.id)}>Edit</button>
+              </>
+            )}
           </li>
         ))}
       </ul>
