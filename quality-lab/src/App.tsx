@@ -17,7 +17,7 @@ function App() {
   }
 
   function onChangeEditedTodo(e: React.ChangeEvent<HTMLInputElement>) {
-    setTodotext(e.target.value);
+    setEditText(e.target.value);
   }
 
   function onSubmit() {
@@ -30,7 +30,35 @@ function App() {
   }
 
   function onEditTodo(id: number) {
-    setEditingTodoId(id);
+    const todo = todoList.find((todo) => todo.id === id);
+    if (todo) {
+      setEditingTodoId(id);
+      setEditText(todo.text);
+    }
+  }
+
+  function onCancelEdit() {
+    setEditingTodoId(null);
+    setEditText('');
+  }
+
+  function onSaveEditText(id: number) {
+    //go through all the todoList and then single the one with
+    // matching id to what is been edited and and then
+    // edit it only
+    setTodoList((prev) => {
+      return prev.map((todo) =>
+        todo.id === id
+          ? {
+              ...todo,
+              text: editText,
+            }
+          : todo,
+      );
+    });
+
+    setEditingTodoId(null);
+    setEditText('');
   }
 
   return (
@@ -47,6 +75,9 @@ function App() {
         onRemoveTodo={onRemoveTodo}
         editingTodoId={editingTodoId}
         editText={editText}
+        onChangeEditedTodo={onChangeEditedTodo}
+        onCancelEdit={onCancelEdit}
+        onSaveEditText={onSaveEditText}
       />
     </main>
   );

@@ -9,6 +9,9 @@ type TodoListProps = {
   onEditTodo: (id: number) => void;
   editingTodoId: number | null;
   editText: string;
+  onChangeEditedTodo: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSaveEditText: (id: number) => void;
+  onCancelEdit: () => void;
 };
 
 /*
@@ -26,6 +29,9 @@ function TodoList({
   onEditTodo,
   editingTodoId,
   editText,
+  onChangeEditedTodo,
+  onSaveEditText,
+  onCancelEdit,
 }: TodoListProps) {
   return (
     <div>
@@ -35,9 +41,14 @@ function TodoList({
           <li key={todo.id}>
             {editingTodoId === todo.id ? (
               <>
-                <input value={editText} type="text" id="text" />
-                <button>Save</button>
-                <button>Edit</button>
+                <input
+                  value={editText}
+                  type="text"
+                  id="text"
+                  onChange={onChangeEditedTodo}
+                />
+                <button onClick={() => onSaveEditText(todo.id)}>Save</button>
+                <button onClick={onCancelEdit}>Cancel</button>
               </>
             ) : (
               <>
