@@ -45,7 +45,7 @@ function App() {
   function onSaveEditText(id: number) {
     //go through all the todoList and then single the one with
     // matching id to what is been edited and and then
-    // edit it only
+
     setTodoList((prev) => {
       return prev.map((todo) =>
         todo.id === id
