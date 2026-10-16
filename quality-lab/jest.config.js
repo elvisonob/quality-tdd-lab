@@ -1,6 +1,10 @@
 import { createDefaultPreset } from 'ts-jest';
 
-const tsJestTransformCfg = createDefaultPreset().transform;
+const tsJestTransformCfg = createDefaultPreset({
+  tsconfig: {
+    jsx: 'react-jsx',
+  },
+}).transform;
 
 /** @type {import("jest").Config} */
 export default {
