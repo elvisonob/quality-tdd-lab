@@ -15,9 +15,38 @@ test('displays Todo App and Add a Todo heading', () => {
 test('User writes a Todo and submit', async () => {
   render(<App />);
   const inputForm = screen.getByRole('textbox');
-  await user.type(inputForm);
+  await user.type(inputForm, 'Learn Jest');
   const enterButton = screen.getByRole('button', { name: /enter/i });
   await user.click(enterButton);
-  const todoList = screen.getByRole('listgroup');
-  expect(todoList).toHaveLength(1);
+  expect(screen.getByText('Learn Jest')).toBeInTheDocument();
+});
+
+test('Removing a Todo', async () => {
+  render(<App />);
+  const inputForm = screen.getByRole('textbox');
+  await user.type(inputForm, 'Learn Jest');
+  const enterButton = screen.getByRole('button', { name: /enter/i });
+  await user.click(enterButton);
+  expect(screen.getByText('Learn Jest')).toBeInTheDocument();
+  const removeButton = screen.getByRole('button', { name: /remove/i });
+  await user.click(removeButton);
+  expect(screen.queryByText('Learn Jest')).not.toBeInTheDocument();
+});
+
+test('Edit a todo', async () => {
+  render(<App />);
+  const inputForm = screen.getByRole('textbox');
+  await user.type(inputForm, 'Learn Jest');
+  const enterButton = screen.getByRole('button', { name: /enter/i });
+  await user.click(enterButton);
+  expect(screen.getByText('Learn Jest')).toBeInTheDocument();
+  const editButton = screen.getByRole('button', { name: /edit/i });
+  await user.click(editButton);
+  const saveButton = screen.getByRole('button', { name: /save/i });
+  const cancelButton = screen.getByRole('button', { name: /cancel/i });
+  expect(saveButton).toBeInTheDocument();
+  expect(cancelButton).toBeInTheDocument();
+  await user.type(inputForm, 'Holla');
+  await user.click(saveButton);
+  expect(screen.getByText('Holla')).toBeInTheDocument();
 });
