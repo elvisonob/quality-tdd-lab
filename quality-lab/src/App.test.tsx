@@ -46,7 +46,10 @@ test('Edit a todo', async () => {
   const cancelButton = screen.getByRole('button', { name: /cancel/i });
   expect(saveButton).toBeInTheDocument();
   expect(cancelButton).toBeInTheDocument();
-  await user.type(inputForm, 'Holla');
+  const editForm = screen.getByRole('textbox', { name: /editText/i });
+  await user.clear(editForm);
+  await user.type(editForm, 'Holla');
   await user.click(saveButton);
+  expect(screen.queryByText('Learn Jest')).not.toBeInTheDocument();
   expect(screen.getByText('Holla')).toBeInTheDocument();
 });

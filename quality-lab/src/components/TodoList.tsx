@@ -42,9 +42,10 @@ function TodoList({
             {editingTodoId === todo.id ? (
               <>
                 <input
+                  aria-label="editText"
                   value={editText}
                   type="text"
-                  id="text"
+                  id="editText"
                   onChange={onChangeEditedTodo}
                 />
                 <button onClick={() => onSaveEditText(todo.id)}>Save</button>
