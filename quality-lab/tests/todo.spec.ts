@@ -34,7 +34,7 @@ test('delete a todo when a user clicks Remove', async ({ page }) => {
   await expect(page.getByText('Learn Playwright')).toHaveCount(0);
 });
 
-test('updates an existing todo when the user clicks Edit', async ({ page }) => {
+test('update an existing todo when the user clicks Edit', async ({ page }) => {
   await page.goto('http://localhost:5173');
 
   const todoInput = page.getByRole('textbox');
@@ -44,11 +44,27 @@ test('updates an existing todo when the user clicks Edit', async ({ page }) => {
   const editTodo = page.getByRole('button', { name: /edit/i });
   await editTodo.click();
   const saveTodo = page.getByRole('button', { name: /save/i });
-  const cancelTodo = page.getByRole('button', { name: /cancel/i });
   await expect(saveTodo).toBeVisible();
-  await expect(cancelTodo).toBeVisible();
   await page.getByLabel('editText').fill('Learn about Money');
+  await expect(page.getByText('Learn Playwright')).toHaveCount(0);
   await saveTodo.click();
-  await expect(page.queryByText('Learn Playwright')).not.toBeVisible();
   await expect(page.getByText('Learn about Money')).toBeVisible();
+});
+
+test('preserve the original todo when the user cancels editing', async ({
+  page,
+}) => {
+  await page.goto('http://localhost:5173');
+  const todoInput = page.getByRole('textbox');
+  await todoInput.fill('Learn Playwright');
+  await page.getByRole('button', { name: /enter/i }).click();
+  await expect(page.getByText('Learn Playwright')).toBeVisible();
+  const editTodo = page.getByRole('button', { name: /edit/i });
+  await editTodo.click();
+  await page.getByLabel('editText').fill('Learn about Money');
+  const cancelTodo = page.getByRole('button', { name: /cancel/i });
+  await expect(cancelTodo).toBeVisible();
+  await cancelTodo.click();
+  await expect(page.getByText('Learn about Money')).toHaveCount(0);
+  await expect(page.getByText('Learn Playwright')).toHaveCount(1);
 });

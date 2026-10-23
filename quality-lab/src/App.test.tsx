@@ -12,7 +12,7 @@ test('displays Todo App and Add a Todo heading', () => {
   expect(addATodo).toBeInTheDocument();
 });
 
-test('User writes a Todo and submit', async () => {
+test('The user writes a Todo and submit', async () => {
   render(<App />);
   const inputForm = screen.getByRole('textbox');
   await user.type(inputForm, 'Learn Jest');
@@ -21,7 +21,7 @@ test('User writes a Todo and submit', async () => {
   expect(screen.getByText('Learn Jest')).toBeInTheDocument();
 });
 
-test('Removing a Todo', async () => {
+test('Removing an existing todo by the user', async () => {
   render(<App />);
   const inputForm = screen.getByRole('textbox');
   await user.type(inputForm, 'Learn Jest');
@@ -33,7 +33,7 @@ test('Removing a Todo', async () => {
   expect(screen.queryByText('Learn Jest')).not.toBeInTheDocument();
 });
 
-test('Edit a todo', async () => {
+test('updates an exisiting todo by the user', async () => {
   render(<App />);
   const inputForm = screen.getByRole('textbox');
   await user.type(inputForm, 'Learn Jest');
