@@ -12,4 +12,5 @@ export default {
   transform: {
     ...tsJestTransformCfg,
   },
+  testPathIgnorePatterns: ['/node_modules/', '/tests/'],
 };
