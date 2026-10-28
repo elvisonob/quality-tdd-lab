@@ -14,15 +14,6 @@ type TodoListProps = {
   onCancelEdit: () => void;
 };
 
-/*
-When a user clicks on edit, an input box shows up and a 
-save and edit button simultaneously.
-
-Then, they type and when they click save, the new text is 
-added and edited 
-
-*/
-
 function TodoList({
   todoList,
   onRemoveTodo,
