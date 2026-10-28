@@ -45,11 +45,7 @@ test('Remove a todo when the user clicks remove', async () => {
 test('updates an exisiting todo by the user', async () => {
   await addTodo('Learn Jest');
   await editTodo('Holla');
-  const saveButton = screen.getByRole('button', { name: /save/i });
-  const cancelButton = screen.getByRole('button', { name: /cancel/i });
-  expect(saveButton).toBeInTheDocument();
-  expect(cancelButton).toBeInTheDocument();
-  await user.click(saveButton);
+  await user.click(screen.getByRole('button', { name: /save/i }));
   expect(screen.queryByText('Learn Jest')).not.toBeInTheDocument();
   expect(screen.getByText('Holla')).toBeInTheDocument();
 });
@@ -57,9 +53,7 @@ test('updates an exisiting todo by the user', async () => {
 test('preserves an exisiting todo by the user when Cancel is clicked', async () => {
   await addTodo('Learn Jest');
   await editTodo('Holla');
-  const cancelButton = screen.getByRole('button', { name: /cancel/i });
-  expect(cancelButton).toBeInTheDocument();
-  await user.click(cancelButton);
+  await user.click(screen.getByRole('button', { name: /cancel/i }));
   expect(screen.queryByText('Holla')).not.toBeInTheDocument();
   expect(screen.getByText('Learn Jest')).toBeInTheDocument();
 });
