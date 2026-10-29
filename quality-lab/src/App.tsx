@@ -1,86 +1,25 @@
-import TodoList from './components/TodoList';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-type Todo = {
-  id: number;
-  text: string;
-};
+/*
+I am fetching the city of London's temperature, humidity, precipitation
+*/
+
+const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
 
 function App() {
-  const [todoText, setTodotext] = useState('');
-  const [todoList, setTodoList] = useState<Todo[]>([]);
-  const [editingTodoId, setEditingTodoId] = useState<number | null>(null);
-  const [editText, setEditText] = useState('');
+  const [city, setCity] = useState(null);
 
-  function onChangeTodo(e: React.ChangeEvent<HTMLInputElement>) {
-    setTodotext(e.target.value);
-  }
-
-  function onChangeEditedTodo(e: React.ChangeEvent<HTMLInputElement>) {
-    setEditText(e.target.value);
-  }
-
-  function onSubmit() {
-    setTodoList((prev) => [...prev, { id: Math.random(), text: todoText }]);
-    setTodotext('');
-  }
-
-  function onRemoveTodo(id: number) {
-    setTodoList(todoList.filter((todo) => todo.id !== id));
-  }
-
-  function onEditTodo(id: number) {
-    const todo = todoList.find((todo) => todo.id === id);
-    if (todo) {
-      setEditingTodoId(id);
-      setEditText(todo.text);
-    }
-  }
-
-  function onCancelEdit() {
-    setEditingTodoId(null);
-    setEditText('');
-  }
-
-  function onSaveEditText(id: number) {
-    //go through all the todoList and then single the one with
-    // matching id to what is been edited and and then
-
-    setTodoList((prev) => {
-      return prev.map((todo) =>
-        todo.id === id
-          ? {
-              ...todo,
-              text: editText,
-            }
-          : todo,
-      );
-    });
-
-    setEditingTodoId(null);
-    setEditText('');
-  }
-
+  useEffect(() => {}, []);
   return (
-    <main>
-      <h1>TODO APP</h1>
-      <h3>ADD A TODO</h3>
+    <div>
+      <h2>Weather API</h2>
       <div>
-        <input type="text" id="text" value={todoText} onChange={onChangeTodo} />
-        <button onClick={onSubmit}>Enter</button>
+        <p>City:</p>
+        <p>Temperature: </p>
+        <p>Humidity: </p>
+        <p>Precipitation: </p>
       </div>
-      <TodoList
-        todoList={todoList}
-        onEditTodo={onEditTodo}
-        onRemoveTodo={onRemoveTodo}
-        editingTodoId={editingTodoId}
-        editText={editText}
-        onChangeEditedTodo={onChangeEditedTodo}
-        onCancelEdit={onCancelEdit}
-        onSaveEditText={onSaveEditText}
-      />
-    </main>
+    </div>
   );
 }
-
 export default App;
