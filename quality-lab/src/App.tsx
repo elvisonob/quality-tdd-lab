@@ -19,25 +19,32 @@ type WeatherApi = {
 
 function App() {
   const [weather, setWeather] = useState<WeatherApi | null>(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchWeather = async () => {
       setLoading(true);
+      setError(null);
+      setWeather(null);
       try {
         const response = await fetch(
           `https://api.weatherapi.com/v1/current.json?key=${API_KEY}&q=Glasgow`,
         );
-
-        if (!response.ok) {
-          throw new Error("City can't be found");
-        }
-
         const data = await response.json();
 
+        if (!response.ok) {
+          throw new Error(data.error?.message || 'Something went wrong');
+        }
+
         setWeather(data);
-      } catch (error: any) {
-        console.error(error.message);
+      } catch (error: unknown) {
+        const message =
+          error instanceof Error
+            ? error.message
+            : 'An unexpected error occurred';
+        console.error(error);
+        setError(message);
       } finally {
         setLoading(false);
       }
@@ -50,6 +57,10 @@ function App() {
     return <p>Loading...</p>;
   }
 
+  if (error) {
+    return <p>{error}</p>;
+  }
+
   if (!weather) {
     return <p>No weather data available</p>;
   }
@@ -57,10 +68,10 @@ function App() {
     <div>
       <h2>Weather API</h2>
       <div>
-        <p>City: {weather?.location.name}</p>
-        <p>Temperature: {weather?.current.feelslike_f} </p>
-        <p>Humidity: {weather?.current.humidity} </p>
-        <p>Precipitation: {weather?.current.precip_in} </p>
+        <p>City: {weather.location.name}</p>
+        <p>Temperature: {weather.current.feelslike_f} </p>
+        <p>Humidity: {weather.current.humidity} </p>
+        <p>Precipitation: {weather.current.precip_in} </p>
       </div>
     </div>
   );
