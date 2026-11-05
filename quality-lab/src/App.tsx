@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 I am fetching the city of London's temperature, humidity, precipitation
 */
 
-const API_KEY = import.meta.env.VITE_WEATHER_API_KEY;
+const API_KEY = 'test-api-key';
 
 type WeatherApi = {
   location: {

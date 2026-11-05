@@ -2,7 +2,9 @@ import { createDefaultPreset } from 'ts-jest';
 
 const tsJestTransformCfg = createDefaultPreset({
   tsconfig: {
+    module: 'ESNext',
     jsx: 'react-jsx',
+    types: ['jest', 'node', 'vite/client'],
   },
 }).transform;
 
